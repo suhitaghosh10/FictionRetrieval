@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<h:outputStylesheet library="css" name="style.css" />
+	<title>System Earth</title>
+	<style>
+.Bimage {
+	background-image: url(/earth/images/915793.jpg);
+	opacity: 0.9;
+	filter: alpha(opacity = 90);
+}
+
+.ui-inputfield {
+	width: 20em
+}
+
+.ui-autocomplete .ui-autocomplete-dropdown {
+	position: absolute;
+	height: 100%;
+	width: 1.75em;
+	right: -2px
+}
+
+.ui-autocomplete-dropdown.ui-button {
+	width: 1.75em
+}
+
+.ui-autocomplete-list-item {
+	font-size: 13.5px;
+	border: 0 none;
+	font-weight: normal;
+	margin: 1px 0;
+	padding: 3px 5px;
+	text-align: left
+}
+
+.ui-selectonemenu-list-item {
+	font-size: 13.5px;
+	border: 0 none;
+	margin: 1px 0;
+	padding: 3px 5px;
+	text-align: left;
+	white-space: nowrap
+}
+
+.search-form {
+	width: 70%;
+	margin-left: 190px;
+	font-size: 13px;
+}
+
+.table-form {
+	width: 70%;
+	margin-left: 190px;
+	font-size: 12px;
+}
+</style>
+</h:head>
+<h:body styleClass="Bimage">
+	<h:form id="form" styleClass="search-form">
+
+		<p:growl id="msgs" showDetail="true" />
+		<p:panel header="Earth" style="margin-bottom:10px;">
+			<p:fieldset style="margin-bottom:20px">
+				<h:panelGrid columns="3" cellpadding="5">
+					<p:outputLabel for="genre" value="Genre : *" />
+					<p:selectOneMenu id="genre" value="#{fRSearchBean.genre}"
+						style="width:295px">
+						<p:ajax listener="#{fRSearchBean.onGenreChange}" update="book" />
+						<f:selectItem itemLabel="Select Genre"
+							itemValue="#{fRSearchBean.genre}" noSelectionOption="true" />
+						<f:selectItems value="#{fRSearchBean.genreMap}" />
+					</p:selectOneMenu>
+					<p:message for="genre"></p:message>
+					<p:outputLabel value="Book : *" for="book" />
+					<p:autoComplete id="book" value="#{fRSearchBean.book}"
+						completeMethod="#{fRSearchBean.completeText}" dropdown="true"
+						autoHighlight="true" minQueryLength="4"/>
+
+				</h:panelGrid>
+				<p:commandButton value="Search" action="#{fRSearchBean.displayBook}"
+					update=":form1:panel" icon="ui-icon-refresh">
+				</p:commandButton>
+			</p:fieldset>
+		</p:panel>
+		<p:separator />
+		<p:messages id="messages" showDetail="true" closable="false">
+			<p:autoUpdate />
+		</p:messages>
+
+	</h:form>
+
+	<h:form id="form1" styleClass="table-form">
+		<p:outputPanel id="panel">
+			<p:dataTable id="cartable1" var="bk" value="#{fRSearchBean.simBooks}"
+				rendered="#{fRSearchBean.shallShowTable}">
+
+				<p:column headerText="Rank" style="width:35px">
+					<h:outputText value="#{bk.rank}" />
+				</p:column>
+				<p:column headerText="Name">
+					<h:outputText value="#{bk.name}" />
+				</p:column>
+				<p:column headerText="Author">
+					<h:outputText value="#{bk.author}" />
+				</p:column>
+				<p:column headerText="Download Link">
+						<h:outputLink styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left ui-icon-refresh" style="padding:5px;" value="#{bk.epubPath}" >Download</h:outputLink>
+					
+				</p:column>
+			</p:dataTable>
+		</p:outputPanel>
+
+	</h:form>
+	<p:ajaxStatus style="display:block;margin-bottom:2em;height:24px;">
+		<f:facet name="default">
+		</f:facet>
+
+		<f:facet name="start">
+		</f:facet>
+
+		<f:facet name="complete">
+		</f:facet>
+	</p:ajaxStatus>
+	<p:ajaxStatus onstart="PF('statusDialog').show()"
+		onsuccess="PF('statusDialog').hide()" />
+	<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+		header="Loading" closable="false" resizable="false" showHeader="false">
+		<h:graphicImage library="images" name="ajaxloadingbar.gif" />
+	</p:dialog>
+
+</h:body>
+</html>
