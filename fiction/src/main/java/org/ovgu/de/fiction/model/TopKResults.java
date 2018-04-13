@@ -22,6 +22,9 @@ public class TopKResults {
 	public double bookClassLabel;
 	public double [] bookGlobalFeatureVector;
 	
+	public TopKResults() {
+		// TODO Auto-generated constructor stub
+	}
 
 	public Map<String, Map<String, double[]>> getBooks() {
 		return books;

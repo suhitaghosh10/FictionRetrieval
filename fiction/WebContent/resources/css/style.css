@@ -1,0 +1,50 @@
+.Bimage {
+	background-image: url(../../resources/images/bookbcg.jpg);
+	opacity: 0.9;
+	filter: alpha(opacity = 90);
+}
+
+.ui-inputfield {
+	width: 20em
+}
+
+.ui-autocomplete .ui-autocomplete-dropdown {
+	position: absolute;
+	height: 100%;
+	width: 1.75em;
+	right: -2px
+}
+
+.ui-autocomplete-dropdown.ui-button {
+	width: 1.75em
+}
+
+.ui-autocomplete-list-item {
+	font-size: 13.5px;
+	border: 0 none;
+	font-weight: normal;
+	margin: 1px 0;
+	padding: 3px 5px;
+	text-align: left
+}
+
+.ui-selectonemenu-list-item {
+	font-size: 13.5px;
+	border: 0 none;
+	margin: 1px 0;
+	padding: 3px 5px;
+	text-align: left;
+	white-space: nowrap
+}
+
+.search-form {
+	width: 70%;
+	margin-left: 190px;
+	font-size: 13px;
+}
+
+.table-form {
+	width: 70%;
+	margin-left: 190px;
+	font-size: 12px;
+}
