@@ -24,11 +24,11 @@ public class FRWebUtils {
 
 	public Map<Integer, String> getAllMasterGenres() throws IOException {
 
-		
 		String line = "";
 		Map<Integer, String> genres = new HashMap<>();
 		int csvRow = 0;
-		try (BufferedReader br = new BufferedReader(new FileReader(FRGeneralUtils.getPropertyVal(FRConstants.GENRE_CSV)));) {
+		try (BufferedReader br = new BufferedReader(
+				new FileReader(FRGeneralUtils.getPropertyVal(FRConstants.GENRE_CSV)));) {
 
 			while ((line = br.readLine()) != null) {
 				csvRow++;
@@ -88,59 +88,86 @@ public class FRWebUtils {
 		return book_Id;
 	}
 
-	public static Set<String> getFeatureHighLevelName(String featureId) {
-		Set<String> featureName = new HashSet<>();
+	public static String getHighLevelFeatures(Map<String, String> reduced_features) {
+		Set<String> ftrSet = new HashSet<>();
+		if (reduced_features.size() > 0) {
+			for (Map.Entry<String, String> reduced_fe : reduced_features.entrySet()) {
+				if (reduced_fe.getKey().startsWith("Feature")) {
+					ftrSet.add(getFeatureHighLevelName(reduced_fe.getValue()));
+					System.out.println(reduced_fe.getValue());
+				}
+			}
+		}
+		System.out.println(ftrSet.size());
+		if(ftrSet.contains(MALE_ORIENTED) && ftrSet.contains(FEMALE_ORIENTED)) {
+			ftrSet.remove(MALE_ORIENTED);
+			ftrSet.remove(FEMALE_ORIENTED);
+			ftrSet.add(PLOT_OF_COMPLEXITY);
+		}
+		StringBuffer reducedFe = new StringBuffer();
+		for (String s : ftrSet) {
+			reducedFe.append(s).append(" ,");
+		}
+		reducedFe.deleteCharAt(reducedFe.length() - 1);
+		return reducedFe.toString();
+
+	}
+
+	private static String getFeatureHighLevelName(String featureId) {
+		StringBuffer featureName = new StringBuffer();
+		System.out.println("1");
 		if (featureId.equals("F0")) // writing style
-			featureName.add(WRITING_STYLE);
+			featureName.append(WRITING_STYLE);
 		if (featureId.equals("F1")) // female oriented
-			featureName.add(FEMALE_ORIENTED);
+			featureName.append(FEMALE_ORIENTED);
 		if (featureId.equals("F2")) // male oriented
-			featureName.add(MALE_ORIENTED);
+			featureName.append(MALE_ORIENTED);
 		if (featureId.equals("F3")) // writing style
-			featureName.add(WRITING_STYLE);
+			featureName.append(WRITING_STYLE);
 		if (featureId.equals("F4")) // writing style
-			featureName.add(WRITING_STYLE);
+			featureName.append(WRITING_STYLE);
 		if (featureId.equals("F5")) // writing style
-			featureName.add(WRITING_STYLE);
+			featureName.append(WRITING_STYLE);
 		if (featureId.equals("F6")) // sentence complexity
-			featureName.add(SENTENCE_COMPLEXITY);
+			featureName.append(SENTENCE_COMPLEXITY);
 		if (featureId.equals("F7")) // sentence complexity
-			featureName.add(SENTENCE_COMPLEXITY);
+			featureName.append(SENTENCE_COMPLEXITY);
 		if (featureId.equals("F8")) // sentence complexity
-			featureName.add(SENTENCE_COMPLEXITY);
+			featureName.append(SENTENCE_COMPLEXITY);
 		if (featureId.equals("F9")) // writing style
-			featureName.add(WRITING_STYLE);
+			featureName.append(WRITING_STYLE);
 		if (featureId.equals("F10")) // writing style
-			featureName.add(WRITING_STYLE);
+			featureName.append(WRITING_STYLE);
 		if (featureId.equals("F11")) // writing style
-			featureName.add(WRITING_STYLE);
+			featureName.append(WRITING_STYLE);
 		if (featureId.equals("F12")) // writing style
-			featureName.add(WRITING_STYLE);
+			featureName.append(WRITING_STYLE);
 		if (featureId.equals("F13")) // sentence complexity and writing style
 		{
-			featureName.add(SENTENCE_COMPLEXITY);
-			featureName.add(WRITING_STYLE);
+			featureName.append(SENTENCE_COMPLEXITY);
+			featureName.append(WRITING_STYLE);
 		}
 		if (featureId.equals("F14")) // sentence complexity and writing style
-			{featureName.add(WRITING_STYLE);
-			featureName.add(SENTENCE_COMPLEXITY);
-			}
+		{
+			featureName.append(WRITING_STYLE);
+			featureName.append(SENTENCE_COMPLEXITY);
+		}
 		if (featureId.equals("F15")) // rural and urban setting
-			featureName.add(RURAL_AND_URBAN_SETTING);
+			featureName.append(RURAL_AND_URBAN_SETTING);
 		if (featureId.equals("F16")) // overall sentiment
-			featureName.add(OVERALL_SENTIMENT);
+			featureName.append(OVERALL_SENTIMENT);
 		if (featureId.equals("F17")) // overall sentiment
-			featureName.add(OVERALL_SENTIMENT);
+			featureName.append(OVERALL_SENTIMENT);
 		if (featureId.equals("F18")) // overall sentiment
-			featureName.add(OVERALL_SENTIMENT);
+			featureName.append(OVERALL_SENTIMENT);
 		if (featureId.equals("F19")) // ease of readability
-			featureName.add(EASE_OF_READABILITY);
+			featureName.append(EASE_OF_READABILITY);
 		if (featureId.equals("F20")) // plot complexity
-			featureName.add(PLOT_OF_COMPLEXITY);
+			featureName.append(PLOT_OF_COMPLEXITY);
 		if (featureId.equals("F21")) // vocabulary richness
-			featureName.add(VOCABULARY_RICHNESS);
+			featureName.append(VOCABULARY_RICHNESS);
 
-		return featureName;
+		return featureName.toString();
 	}
 
 	public static String getFeatureName(String featureId) {

@@ -29,6 +29,7 @@ public class FRSearchBean implements Serializable {
 	private static final long serialVersionUID = 462006850003220169L;
 	
 	private static final String WEB_CONTEXT_PATH = "web.ctx.path";
+	private static long TIME;
 	final static Logger LOG = Logger.getLogger(ContentExtractor.class);
 	private Map<String, List<String>> data = new HashMap<String, List<String>>();
 	private String genre;
@@ -46,7 +47,7 @@ public class FRSearchBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		LOG.info("Init !!! ");
-
+		TIME = System.currentTimeMillis();
 		shallShowTable = false;
 		genreMap = new HashMap<String, String>();
 		genreMap.put("All", "All");
@@ -89,7 +90,7 @@ public class FRSearchBean implements Serializable {
 	 * @throws Exception
 	 */
 	public void displayBook() throws Exception {
-
+		TIME= System.currentTimeMillis();
 		if (genre == null || genre.trim().equals("")) {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, null, "Please select a Genre"));
@@ -173,21 +174,12 @@ public class FRSearchBean implements Serializable {
 					StringBuffer reducedFe = new StringBuffer(
 							"Some important factors responsible for the list obtained below : ");
 
-					Set<String> ftrSet = new HashSet<>();
-					if (reduced_features.size() > 0) {
-						for (Map.Entry<String, String> reduced_fe : reduced_features.entrySet()) {
-							if (reduced_fe.getKey().startsWith("Feature")) {
-								ftrSet.addAll(FRWebUtils.getFeatureHighLevelName(reduced_fe.getValue()));
-							}
-						}
-					}
+					reducedFe.append(FRWebUtils.getHighLevelFeatures(reduced_features));
 
-					for (String s : ftrSet) {
-						reducedFe.append(s).append(" ,");
-					}
-					reducedFe.deleteCharAt(reducedFe.length() - 1);
 					FacesMessage msg = new FacesMessage("Analysis could not be done");
 
+					System.out.println("Time taken -"+((System.currentTimeMillis()-TIME)/1000));
+					TIME= System.currentTimeMillis();
 					if (reducedFe != null) {
 						msg = new FacesMessage(FacesMessage.SEVERITY_INFO, null, reducedFe.toString());
 					}
@@ -198,6 +190,7 @@ public class FRSearchBean implements Serializable {
 		}
 	}
 
+	
 	/**
 	 * @param query
 	 * @return
