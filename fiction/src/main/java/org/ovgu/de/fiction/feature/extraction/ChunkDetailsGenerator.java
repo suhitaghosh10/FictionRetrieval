@@ -121,16 +121,8 @@ public class ChunkDetailsGenerator {
 		WordAttributeGenerator wag = new WordAttributeGenerator();
 		FeatureExtractorUtility feu = new FeatureExtractorUtility();
 		List<String> stopwords = Arrays.asList(FRGeneralUtils.getPropertyVal(FRConstants.STOPWORD_FICTION).split("\\|"));
-		Concept cncpt = wag.generateWordAttributes(Paths.get(path)); // this is
-																	 // a
-																	 // "word-token-pos-ner"
-																	 // list
-																	 // of
-																	 // whole
-																	 // book!
-
-		// dummu
-
+		Concept cncpt = wag.generateWordAttributes(Paths.get(path)); 
+		
 		for (Entry<String,Integer> c : cncpt.getCharacterMap().entrySet()) {
 			LOG.info(c.getKey()+" "+c.getValue());
 		}
@@ -139,8 +131,6 @@ public class ChunkDetailsGenerator {
 		List<Word> wordList = cncpt.getWords();
 		int numOfSntncPerBook  = cncpt.getNumOfSentencesPerBook();
 
-		// String fileName =
-		// Paths.get(path).getFileName().toString().replace(Constants.CONTENT_FILE, Constants.NONE);
 
 		ParagraphPredicate filter = new ParagraphPredicate();
 		List<Word> copy = new ArrayList<>(wordList);
@@ -401,21 +391,7 @@ public class ChunkDetailsGenerator {
 				String token = tokens.get(wordcntr);
 				textTokens.add(token);
 
-				if (batchCtr == 0 && wordcntr < (TTR_CHUNK_SIZE - remainder)) // tokens
-																				 // to
-																				 // be
-																				 // appended
-																				 // to
-																				 // the
-																				 // last
-																				 // chunk,
-																				 // to
-																				 // make
-																				 // it
-																				 // equal
-																				 // sized
-																				 // as
-																				 // CHUNK_SIZE
+				if (batchCtr == 0 && wordcntr < (TTR_CHUNK_SIZE - remainder)) // tokens						 // CHUNK_SIZE
 				{
 					appendAtEnd.add(token);
 				}
