@@ -52,14 +52,7 @@ public class WordAttributeGenerator {
 		for (CoreMap sentence : sentences) { // this loop will iterate each of the sentences
 			tokenList.add(new Word(FRConstants.S_TAG, FRConstants.S_TAG, null, null, 0));
 			numOfSentences++;
-			for (CoreLabel cl : sentence.get(CoreAnnotations.TokensAnnotation.class)) {// this
-																						// loop
-																						// iterates
-																						// each
-																						// token
-																						// of
-																						// a
-																						// sentence
+			for (CoreLabel cl : sentence.get(CoreAnnotations.TokensAnnotation.class)) {										// sentence
 
 				String original = cl.get(CoreAnnotations.OriginalTextAnnotation.class);
 				String pos = cl.get(CoreAnnotations.PartOfSpeechAnnotation.class);
